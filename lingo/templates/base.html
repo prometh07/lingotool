@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+            <title>Lingo Tool</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="description" content="">
+            <meta name="author" content="">
+
+        <!-- Le styles -->
+        <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet">
+        <style>
+            body 
+            {
+                padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+            }
+        </style>
+        <link href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+          <script src="../assets/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+    {% block navbar %}
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </button>
+                <a class="brand" href="{% url main %}">Lingo</a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        {% if user.is_authenticated %}
+                        <li><a href="#about">Moje zestawy</a></li>
+                        <li><a href="{% url new_set %}">Nowy zestaw</a></li>
+                        <li><a href="#contact">Ustawienia</a></li>
+                        {% endif %}
+                    </ul>
+                    <ul class="nav pull-right">
+                        {% if user.is_authenticated %}
+                        <li><a href="{% url logout %}">Wyloguj się</a></li>
+                        {% else %}
+                        <li><a href="{% url login %}">Logowanie</a></li>
+                        <li><a href="#about">Rejestracja</a></li>
+                        {% endif %}
+                    </ul>
+                    </form>
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block content %}
+    {% endblock %}
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+
+    </body>
+</html>
