@@ -1,0 +1,2 @@
+Twoje konto Lingo zostało właśnie utworzone. Aby je aktywować, kliknij na http://www.{{ site.domain }}/accounts/activate/{{ activation_key }}/.
+Jeśli konto nie zostało utworzone przez ciebie, nie martw się. Nie otrzymasz od nas więcej żadnych wiadomości, a Twoje konto zostanie usunięte po upływie {{ expiration_days }} dni.

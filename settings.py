@@ -2,6 +2,7 @@
 # If you want to use a different backend you have to remove all occurences
 # of "djangoappengine" from this file.
 from djangoappengine.settings_base import *
+from djangoappengine.utils import on_production_server, have_appserver
 import conf
 import os
 
@@ -12,6 +13,10 @@ DATABASES['native'] = DATABASES['default']
 DATABASES['default'] = {'ENGINE': 'dbindexer', 'TARGET': 'native'}
 AUTOLOAD_SITECONF = 'indexes'
 
+ADMINS = (
+    ('Radoslaw Luter', 'lingotool.info@gmail.com'),
+)
+
 SECRET_KEY = conf.SECRET_KEY
 
 INSTALLED_APPS = (
@@ -19,10 +24,12 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.auth',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'djangotoolbox',
     'autoload',
     'dbindexer',
     'lingo',
+    'registration',
     # djangoappengine should come last, so it can override a few manage.py commands
     'djangoappengine',
 )
@@ -58,6 +65,23 @@ STATICFILES_DIRS = (
 STATIC_URL = '/static/'
 
 ROOT_URLCONF = 'urls'
-LOGIN_URL = '/login/'
-LOGOUT_URL = '/logout/'
 LOGIN_REDIRECT_URL = '/'
+
+# django-registration settings
+SITE_ID = 1
+ACCOUNT_ACTIVATION_DAYS=7
+if on_production_server:
+    EMAIL_USE_TLS = True
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_PORT = 587
+    EMAIL_HOST_USER = conf.EMAIL_HOST_USER
+    EMAIL_HOST_PASSWORD = conf.EMAIL_HOST_PASSWORD
+    DEFAULT_FROM_EMAIL =  conf.EMAIL_HOST_USER
+    SERVER_EMAIL = conf.EMAIL_HOST_USER
+else:
+    EMAIL_HOST = 'localhost'
+    EMAIL_PORT = 1025
+    DEFAULT_FROM_EMAIL = 'webmaster@localhost'
+
+LANGUAGE_CODE = 'pl'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

@@ -14,8 +14,6 @@ class Word(models.Model):
 class WordSet(models.Model):
     title = models.CharField(max_length=1024)
     user = models.ForeignKey(User)
-    
+
     def __unicode__(self):
         return unicode(self.title)
-
-

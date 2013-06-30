@@ -39,16 +39,17 @@
                     <ul class="nav">
                         {% if user.is_authenticated %}
                         <li><a href="#about">Moje zestawy</a></li>
-                        <li><a href="{% url new_set %}">Nowy zestaw</a></li>
-                        <li><a href="#contact">Ustawienia</a></li>
+                        <li><a href="#contact">Nowy zestaw</a></li>
                         {% endif %}
                     </ul>
                     <ul class="nav pull-right">
                         {% if user.is_authenticated %}
-                        <li><a href="{% url logout %}">Wyloguj się</a></li>
+                        <li><a href="#"><i class="icon-large icon-white icon-user"></i></a></li>
+                        <li class="divider-vertical"/>
+                        <li><a href="{% url auth_logout %}">Wyloguj się</a></li>
                         {% else %}
-                        <li><a href="{% url login %}">Logowanie</a></li>
-                        <li><a href="#about">Rejestracja</a></li>
+                        <li><a href="{% url auth_login %}">Logowanie</a></li>
+                        <li><a href="{% url registration_register %}">Rejestracja</a></li>
                         {% endif %}
                     </ul>
                     </form>
@@ -58,8 +59,10 @@
     </div>
     {% endblock %}
 
+    <div class="container">
     {% block content %}
     {% endblock %}
+    </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 
