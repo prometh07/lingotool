@@ -1,66 +1,63 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-    <form class="form-horizontal" method="post" action="">{% csrf_token %}
-        <legend>Zarejestruj się</legend>
+<form class="form-horizontal" method="post" action="">{% csrf_token %}
+    <legend>Zarejestruj się</legend>
 
-        {% if form.errors %}
-        <div class="control-group error">Nieprawidłowe dane.</div>
-        {% endif %}
+    {% if form.errors %}
+    <div class="control-group error">Nieprawidłowe dane.</div>
+    {% endif %}
 
-        {% if form.username.errors %}
-        <div class="control-group error">
-        {% else %}
-        <div class="control-group">
-        {% endif %}
-            <label class="control-label" for="input">Nazwa użytkownika</label>
-            <div class="controls">
-            {{ form.username }}
-            {% if form.username.errors %}<span class="help-inline">{{ form.username.errors|join:", " }}</span>{% endif %}
-            </div>
+    {% if form.username.errors %}
+    <div class="control-group error">
+    {% else %}
+    <div class="control-group">
+    {% endif %}
+        <label class="control-label" for="input">Nazwa użytkownika</label>
+        <div class="controls">
+        {{ form.username }}
+        {% if form.username.errors %}<span class="help-inline">{{ form.username.errors|join:", " }}</span>{% endif %}
         </div>
+    </div>
 
-        {% if form.email.errors %}
-        <div class="control-group error">
-        {% else %}
-        <div class="control-group">
-        {% endif %}
-            <label class="control-label" for="input">Adres E-mail</label>
-            <div class="controls">
-            {{ form.email }}
-            {% if form.email.errors %}<span class="help-inline">{{ form.email.errors|join:", " }}</span>{% endif %}
-            </div>
+    {% if form.email.errors %}
+    <div class="control-group error">
+    {% else %}
+    <div class="control-group">
+    {% endif %}
+        <label class="control-label" for="input">Adres E-mail</label>
+        <div class="controls">
+        {{ form.email }}
+        {% if form.email.errors %}<span class="help-inline">{{ form.email.errors|join:", " }}</span>{% endif %}
         </div>
+    </div>
 
-        {% if form.password1.errors %}
-        <div class="control-group error">
-        {% else %}
-        <div class="control-group">
-        {% endif %}
-            <label class="control-label" for="input">Hasło</label>
-            <div class="controls">
-            {{ form.password1 }}
-            {% if form.password1.errors %}<span class="help-inline">{{ form.password1.errors|join:", " }}</span>{% endif %}
-            </div>
+    {% if form.password1.errors %}
+    <div class="control-group error">
+    {% else %}
+    <div class="control-group">
+    {% endif %}
+        <label class="control-label" for="input">Hasło</label>
+        <div class="controls">
+        {{ form.password1 }}
+        {% if form.password1.errors %}<span class="help-inline">{{ form.password1.errors|join:", " }}</span>{% endif %}
         </div>
+    </div>
 
-        {% if form.password2.errors %}
-        <div class="control-group error">
-        {% else %}
-        <div class="control-group">
-        {% endif %}
-            <label class="control-label" for="input">Potwierdź hasło</label>
-            <div class="controls">
-            {{ form.password2 }}
-            {% if form.password2.errors %}<span class="help-inline">{{ form.password2.errors|join:", " }}</span>{% endif %}
-            </div>
+    {% if form.password2.errors %}
+    <div class="control-group error">
+    {% else %}
+    <div class="control-group">
+    {% endif %}
+        <label class="control-label" for="input">Potwierdź hasło</label>
+        <div class="controls">
+        {{ form.password2 }}
+        {% if form.password2.errors %}<span class="help-inline">{{ form.password2.errors|join:", " }}</span>{% endif %}
         </div>
+    </div>
 
-        <div class="form-actions">
-            <input class="btn btn-inverse" type="submit" value="Zarejestruj się" />
-        </div>
-    </form>
-
-</div>
+    <div class="form-actions">
+        <input class="btn btn-inverse" type="submit" value="Zarejestruj się" />
+    </div>
+</form>
 {% endblock %}

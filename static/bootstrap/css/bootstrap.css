@@ -2241,6 +2241,19 @@ table th[class*="span"],
   margin-left: 0;
 }
 
+/* word_sets_detail table classes */
+.table tbody tr.easy > td {
+  background-color: #b8FF94;
+}
+
+.table tbody tr.medium > td {
+  background-color: #ffff91;
+}
+
+.table tbody tr.hard > td {
+  background-color: #F4C7C7;
+}
+
 .table tbody tr.success > td {
   background-color: #dff0d8;
 }

@@ -5,6 +5,7 @@ from djangoappengine.settings_base import *
 from djangoappengine.utils import on_production_server, have_appserver
 import conf
 import os
+import sys
 
 PROJECT_PATH = os.path.dirname(__file__)
 
@@ -28,8 +29,9 @@ INSTALLED_APPS = (
     'djangotoolbox',
     'autoload',
     'dbindexer',
-    'lingo',
     'registration',
+    'filetransfers',
+    'lingo',
     # djangoappengine should come last, so it can override a few manage.py commands
     'djangoappengine',
 )
@@ -40,6 +42,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'google.appengine.ext.ndb.django_middleware.NdbDjangoMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -67,6 +70,13 @@ STATIC_URL = '/static/'
 ROOT_URLCONF = 'urls'
 LOGIN_REDIRECT_URL = '/'
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'TIMEOUT': 0,
+    }
+}
+
 # django-registration settings
 SITE_ID = 1
 ACCOUNT_ACTIVATION_DAYS=7
@@ -85,3 +95,14 @@ else:
 
 LANGUAGE_CODE = 'pl'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Third party libraries
+sys.path.append(os.path.join(PROJECT_PATH, 'lib'))
+
+# Files upload
+FILE_UPLOAD_HANDLERS = (
+    'django.core.files.uploadhandler.MemoryFileUploadHandler',
+    #'django.core.files.uploadhandler.TemporaryFileUploadHandler',
+)
+FILE_UPLOAD_TEMP_DIR = os.path.join(PROJECT_PATH, 'tmp')
+FILE_UPLOAD_MAX_MEMORY_SIZE = 2621440 

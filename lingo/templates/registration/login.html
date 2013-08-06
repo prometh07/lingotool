@@ -1,49 +1,47 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-    <form class="form-horizontal" method="post" action="?next={{ next|default:"/" }}">{% csrf_token %}
-        <legend>Zaloguj się</legend>
+<form class="form-horizontal" method="post" action="?next={{ next|default:"/" }}">{% csrf_token %}
+    <legend>Zaloguj się</legend>
 
-        {% if form.errors %}
-        <div class="control-group error">Nieprawidłowe dane.</div>
-        {% endif %}
+    {% if form.errors %}
+    <div class="control-group error">Nieprawidłowe dane.</div>
+    {% endif %}
 
-        {% if form.username.errors %}
-        <div class="control-group error">
-        {% else %}
-        <div class="control-group">
-        {% endif %}
-            <label class="control-label" for="input">Użytkownik</label>
-            <div class="controls">
-            {{ form.username }}
-            {% if form.username.errors %}<span class="help-inline">{{ form.username.errors|join:", " }}</span>{% endif %}
-            </div>
+    {% if form.username.errors %}
+    <div class="control-group error">
+    {% else %}
+    <div class="control-group">
+    {% endif %}
+        <label class="control-label" for="input">Użytkownik</label>
+        <div class="controls">
+        {{ form.username }}
+        {% if form.username.errors %}<span class="help-inline">{{ form.username.errors|join:", " }}</span>{% endif %}
         </div>
+    </div>
 
-        {% if form.password.errors %}
-        <div class="control-group error">
-        {% else %}
-        <div class="control-group">
-        {% endif %}
-            <label class="control-label" for="input">Hasło</label>
-            <div class="controls">
-            {{ form.password }}
-            {% if form.password.errors %}<span class="help-inline">{{ form.password.errors|join:", " }}</span>{% endif %}
-            </div>
+    {% if form.password.errors %}
+    <div class="control-group error">
+    {% else %}
+    <div class="control-group">
+    {% endif %}
+        <label class="control-label" for="input">Hasło</label>
+        <div class="controls">
+        {{ form.password }}
+        {% if form.password.errors %}<span class="help-inline">{{ form.password.errors|join:", " }}</span>{% endif %}
         </div>
+    </div>
 
-        <div class="control-group">
-            <div class="controls">
-                <label class="checkbox"><input type="checkbox" name="remember_me" value="true">Zapamiętaj mnie</input></label>
-            </div>
+    <div class="control-group">
+        <div class="controls">
+            <label class="checkbox"><input type="checkbox" name="remember_me" value="true">Zapamiętaj mnie</input></label>
         </div>
+    </div>
 
-        <div class="form-actions">
-            <input class="btn btn-inverse" type="submit" value="Zaloguj się" />
-        </div>
-  </form>
+    <div class="form-actions">
+        <input class="btn btn-inverse" type="submit" value="Zaloguj się" />
+    </div>
+</form>
 
-  <a href="{% url auth_password_reset %}">Zapomniałem hasła!</a>
-</div>
+<a href="{% url auth_password_reset %}">Zapomniałem hasła!</a>
 {% endblock %}
