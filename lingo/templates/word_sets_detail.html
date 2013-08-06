@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="span9">
+<table class="table table-bordered">
+    <thead>
+        <th>Słowo/fraza</th>
+        <th>Trudność</th>
+        <th>Tłumaczenie</th>
+    </thead>
+    <tbody>
+        {% for word in words %}
+        {% if word.difficulty == 0 %}
+        <tr class="easy">
+        {% elif word.difficulty == 1 %}
+        <tr class="medium">
+        {% else %}
+        <tr class="hard">
+        {% endif %}
+            <td class="span3">{{ word.word }}</td>
+            <td class="span1">{{ word.difficulty }}</td>
+            <td class="span5">{{ word.definition }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

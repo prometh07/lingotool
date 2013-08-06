@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="span9 offset1">
+<table class="table table-bordered">
+    <thead>
+        <th>Nazwa</th>
+        <th>Liczba słówek</th>
+        <th>Data utworzenia</th>
+    </thead>
+    <tbody>
+        {% for word_set in word_sets %}
+        <tr>
+            <td><a href="{% url word_sets_detail word_set.id %}">{{ word_set.title }}</a></td>
+            <td>{{ word_set.words_number }}</td>
+            <td>{{ word_set.pub_date|date:"Y-m-d, H:i" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

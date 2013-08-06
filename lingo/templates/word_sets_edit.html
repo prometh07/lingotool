@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br>
+<p>Aby przetworzyć nowy dokument, wybierz plik do załadowania albo wklej jego
+zawartość w pole tekstowe.</p>
+<hr>
+<script src="js/bootstrap.min.js"></script>
+<form class="form-horizontal" method="post" action="" enctype="multipart/form-data">{% csrf_token %}
+    {% if form.errors %}
+    <div class="alert alert-block alert-error">
+        {% for field, error in form.errors.items %}
+        {{ error }}
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% if not edit_mode %}
+    {% if form.title.errors %}
+    <div class="control-group error">
+    {% else %}
+    <div class="control-group">
+    {% endif %}
+        <label class="control-label" for="input">Nazwa zestawu</label>
+        <div class="controls">
+        {{ form.title }}
+        {% if form.title.errors %}<span class="help-inline">{{ form.title.errors|join:", " }}</span>{% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if form.file.errors %}
+    <div class="control-group error">
+    {% else %}
+    <div class="control-group">
+    {% endif %}
+        <label class="control-label" for="input">Plik</label>
+        <div class="controls">
+        {{ form.file }}
+        {% if form.file.errors %}<span class="help-inline">{{ form.file.errors|join:", " }}</span>{% endif %}
+        </div>
+    </div>
+
+    {% if form.text.errors %}
+    <div class="control-group error">
+    {% else %}
+    <div class="control-group">
+    {% endif %}
+        <label class="control-label" for="input">Tekst</label>
+        <div class="controls">
+        <textarea class="field span6" rows="10" id="id_text" name="text" style:"resize:none"></textarea>
+        {% if form.text.errors %}<span class="help-inline">{{ form.text.errors|join:", " }}</span>{% endif %}
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <input class="btn btn-inverse" type="submit" value="Wyślij" />
+    </div>
+</form>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#id_file").blur(function() {
+        if ($(this).val() != '')
+            $("#id_text").attr("disabled", "disabled");
+        else
+            $("#id_text").removeAttr("disabled");
+    });
+    $("#id_text").blur(function() {
+        if ($(this).val() != '')
+            $("#id_file").attr("disabled", "disabled");
+        else
+            $("#id_file").removeAttr("disabled");
+    });
+});
+</script>
+{% endblock %}
