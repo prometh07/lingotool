@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-from lingo.frequency_list import freq_words
+from .frequency_list import freq_words
 
 max_val = 10
 easy_val = 2.0

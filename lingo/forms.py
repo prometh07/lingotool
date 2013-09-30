@@ -1,7 +1,8 @@
 #coding=utf-8
 from django import forms
-from lingo.models import WordSet, Word
-from lingo.algorithms import naive, parse_text
+
+from .models import WordSet, Word
+from .algorithms import naive, parse_text
 
 
 class WordSetForm(forms.Form):
@@ -15,10 +16,12 @@ class WordSetForm(forms.Form):
         super(WordSetForm, self).__init__(*args, **kwargs)
 
     def clean(self):
-        self.cleaned_data = super(WordSetForm, self).clean()
-        if not self.cleaned_data.get('file') and not self.cleaned_data.get('text'):
+        cleaned_data = super(WordSetForm, self).clean()
+        if not cleaned_data.get('file') and not cleaned_data.get('text'):
             raise forms.ValidationError('Musisz wybrać plik albo wkleić tekst.')
-        return self.cleaned_data
+        if not self.instance and not cleaned_data.get('title'):
+            raise forms.ValidationError('Musisz wpisać nazwę zestawu.')
+        return cleaned_data
 
     def save(self):
         if not self.instance:

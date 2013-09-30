@@ -620,6 +620,12 @@ a:focus {
   *zoom: 1;
 }
 
+.container.lingo {
+    padding: 10px 10px 10px 10px;
+    background: #eeeeee;
+    border: 1px solid #C3CDD4; 
+}
+
 .container:before,
 .container:after {
   display: table;
@@ -2241,18 +2247,36 @@ table th[class*="span"],
   margin-left: 0;
 }
 
+.icon-pressed {
+    box-shadow: 0.1em 0.1em 0.2em red;
+    background-color: red;
+}
+
 /* word_sets_detail table classes */
 .table tbody tr.easy > td {
-  background-color: #b8FF94;
+  background-color: #E0FFC2; 
 }
 
 .table tbody tr.medium > td {
-  background-color: #ffff91;
+  background-color: #FFFFBD; 
 }
 
 .table tbody tr.hard > td {
-  background-color: #F4C7C7;
+  background-color: #FFD6D6;   
 }
+
+.table-hover tbody tr.easy:hover > td {
+  background-color: #F0FFE0;
+}
+
+.table-hover tbody tr.medium:hover > td {
+  background-color: #FFFFD7; 
+}
+
+.table-hover tbody tr.hard:hover > td {
+  background-color: #FFE6E6; 
+}
+/* end */
 
 .table tbody tr.success > td {
   background-color: #dff0d8;

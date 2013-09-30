@@ -42,6 +42,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'google.appengine.ext.ndb.django_middleware.NdbDjangoMiddleware',
 )
 
@@ -57,6 +58,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 TEST_RUNNER = 'djangotoolbox.test.CapturingTestSuiteRunner'
 
 ADMIN_MEDIA_PREFIX = '/media/admin/'
+
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_PATH, 'lingo', 'templates'),
 )

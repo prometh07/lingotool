@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="hero-unit">
-    <h2>Gratulacje!</h2>
-    <p>Twoje konto jest teraz gotowe.</p>
-</div>
+<h4>Gratulacje!</h4>
+<p>Twoje konto jest teraz gotowe. Możesz się <a href="{% url auth_login %}">zalogować</a>.</p>
 {% endblock %}

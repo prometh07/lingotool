@@ -15,3 +15,4 @@ mapreduce
 build
 conf.py
 temp_data/
+lib/

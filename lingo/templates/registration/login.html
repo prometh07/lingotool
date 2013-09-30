@@ -42,6 +42,6 @@
         <input class="btn btn-inverse" type="submit" value="Zaloguj się" />
     </div>
 </form>
-
-<a href="{% url auth_password_reset %}">Zapomniałem hasła!</a>
+<p><a href="{% url auth_password_reset %}">Zapomniałem hasła.</a><br>
+<a href="{% url registration_register %}">Nie mam konta.</a></p>
 {% endblock %}
