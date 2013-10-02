@@ -8,15 +8,15 @@
 
     <!-- Toolbar -->
     <div class="btn-group">
-        <button id="mark_all" class="btn btn-small" type="button">
+        <button id="mark_all" class="btn btn-small" title="Zaznacz wszystkie" type="button">
             <i class="icon-large icon-ok"></i>
         </button>
     </div>
     <div class="btn-group">
-        <a class="btn btn-small" href="{% url word_sets_edit %}">
+        <a class="btn btn-small" title="Dodaj nowy zestaw" href="{% url word_sets_edit %}">
             <i class="icon-large icon-plus"></i>
         </a>
-        <button class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#"> 
+        <button id="download" class="btn btn-small dropdown-toggle" data-toggle="dropdown" title="Eksportuj"> 
             <i class="icon-large icon-download-alt"></i>
             <span class="caret"></span>
         </button>
@@ -24,11 +24,11 @@
             <li id="download_txt"><a href="#">txt</a></li>
             <li id="download_email"><a href="#">e-mail</a></li>
         </ul>
-        <button id="merge" class="btn btn-small" type="button">
-            <i class="icon-large icon-resize-small"></i>
-        </button>
-        <button id="delete" class="btn btn-small" >
+        <button id="delete" class="btn btn-small" title="Usuń">
             <i class="icon-large icon-trash"></i>
+        </button>
+        <button id="merge" class="btn btn-small" title="Połącz zestawy" type="button">
+            <i class="icon-large icon-resize-small"></i>
         </button>
     </div>
 

@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 <form id="word_sets_detail_form" action="" method="post">{% csrf_token %}
+    <legend>
+        <a href="#" id="title" class="editable_title" data-type="text" data-pk="{{ word_set_pk }}" data-url="{% url word_sets_detail pk=word_set_pk %}" data-title="Zmień nazwę">{{ word_set_title }}</a>
+    </legend>
     <input id="submit_action" name="submit_action" type="hidden">
     <div class="btn-group">
-        <button id="mark" class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#"> 
+        <button id="mark" class="btn btn-small dropdown-toggle" data-toggle="dropdown" title="Zaznacz"> 
         <i class="icon-large icon-ok"></i> <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
@@ -14,25 +17,28 @@
         </ul>
     </div>
     <div class="btn-group">
-        <button class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#"> 
+        <button class="btn btn-small dropdown-toggle" data-toggle="dropdown" title="Eksportuj"> 
         <i class="icon-large icon-download-alt"></i> <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
-            <li onclick="$('#submit_action').val('download_txt'); $('#word_sets_detail_form').submit()"><a href="#">txt</a></li>
-            <li onclick="$('#submit_action').val('download_pdf'); $('#word_sets_detail_form').submit()"><a href="#">pdf</a></li>
-            <li onclick="$('#submit_action').val('download_email'); $('#word_sets_detail_form').submit()"><a href="#">e-mail</a></li>
+            <li id="download_txt"><a href="#">txt</a></li>
+            <li id="download_email"><a href="#">e-mail</a></li>
         </ul>
     </div>
     <div class="btn-group">
-        <button class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#"> 
-        <i class="icon-large icon-wrench"></i> <span class="caret"></span>
+        <a class="btn btn-small" title="Dodaj nowy zestaw" href="{% url word_sets_edit word_set_pk %}">
+            <i class="icon-large icon-plus"></i>
+        </a>
+        <button id="modify" class="btn btn-small dropdown-toggle" data-toggle="dropdown" title="Modyfikuj"> 
+            <i class="icon-large icon-wrench"></i> <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
-            <li onclick="$('#submit_action').val('download_txt'); $('#word_sets_detail_form').submit()"><a href="#">txt</a></li>
-            <li onclick="$('#submit_action').val('download_email'); $('#word_sets_detail_form').submit()"><a href="#">e-mail</a></li>
+            <li id="download_?"><a href="#">txt</a></li>
+            <li id="download_?"><a href="#">e-mail</a></li>
         </ul>
-        <button class="btn btn-small" type="button" onclick="$('#submit_action').val('merge'); $('#word_sets_detail_form').submit()"><i class="icon-large icon-resize-small"></i></button>
-        <button class="btn btn-small" onclick="$('#submit_action').val('delete'); $('#word_sets_detail_form').submit()"><i class="icon-large icon-trash"></i></button>
+        <button id="delete" class="btn btn-small" title="Usuń">
+            <i class="icon-large icon-trash"></i>
+        </button>
     </div>
 
     <table class="table table-hover">

@@ -16,7 +16,10 @@ class WordSet(models.Model):
     title = models.CharField(max_length=1024)
     pub_date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User)
-    words_number = models.IntegerField(default=0)
 
     def __unicode__(self):
         return unicode(self.title)
+
+    @property
+    def words_number(self):
+        return self.word_set.count()
