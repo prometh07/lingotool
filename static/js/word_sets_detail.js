@@ -29,6 +29,13 @@ $('.editable_definition').editable({
     },
 });
 
+function openNextEditable(obj, reason) {
+    if( $('#auto-next').hasClass('active') && (reason === 'save' || reason === 'nochange')) {
+        var next = $(obj).closest('tr').next().find('.editable');
+        setTimeout(function() { next.editable('show'); }, 300); 
+    }
+}
+
 function checkSelectedCheckboxes() {
     var checked_count = $(':checked').length;    
     checked_count === 0 ?
@@ -61,4 +68,6 @@ $(document).ready(function() {
     $('#mark_all').on('click', function() { toggleCheckboxes(this, 'tr'); });
     $('#delete, #download_txt, #download_email').on('click', function() { submitForm(this); });
     $(':checkbox').on('click', checkSelectedCheckboxes);
+    $('#auto-next').on('click', function() { $(this).toggleClass('active'); });
+    $('.editable_definition').on('hidden', function(e, reason){ openNextEditable(this, reason); });
 });
