@@ -1,15 +1,15 @@
 $.fn.editable.defaults.mode = 'inline';
 
-$('.editable_title').editable({
-    params: {
-        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
-    },
-    ajaxOptions: {
-        headers: { 'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest' }
-    },
-});
+$.fn.editableform.template = '' +
+'<form class="form-inline editableform">' +
+    '<div class="control-group">' +
+        '<div id="ajax"></div>' +
+        '<div><div class="editable-input"></div><div class="editable-buttons"></div></div>' +
+        '<div class="editable-error-block"></div>' +
+    '</div>' +
+'</form>';
 
-$('.editable_word').editable({
+$('.editable').editable({
     params: {
         'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
     },
@@ -29,21 +29,22 @@ $('.editable_definition').editable({
     },
 });
 
-function openNextEditable(obj, reason) {
+openNextEditable = function(obj, reason) {
     if( $('#auto-next').hasClass('active') && (reason === 'save' || reason === 'nochange')) {
         var next = $(obj).closest('tr').next().find('.editable');
         setTimeout(function() { next.editable('show'); }, 300); 
     }
 }
 
-function checkSelectedCheckboxes() {
+checkSelectedCheckboxes = function() {
     var checked_count = $(':checked').length;    
     checked_count === 0 ?
         $('#delete, #modify').prop('disabled', true) :
         $('#delete, #modify').prop('disabled', false);
 }
 
-function toggleCheckboxes(obj, target) {
+toggleCheckboxes = function(obj) {
+    var target = $(obj).attr('data-target');
     var is_active = $(obj).hasClass('active');
     $('.mark').removeClass('active');
     $(':checkbox').each( function() { $(this).prop('checked', false); });
@@ -54,20 +55,49 @@ function toggleCheckboxes(obj, target) {
     checkSelectedCheckboxes();
 }
 
-function submitForm(obj) {
+submitForm = function(obj) {
     var submit_action = $(obj).attr('id');
     $('#submit_action').val(submit_action); 
     $('#word_sets_detail_form').submit();
 }
 
+getDictionaryData = function() { 
+    
+};
+
+error_f = function() { }
+
+setScrollableTableHeight = function() {
+    var toolbar_height = $('#toolbar').height();
+    var form_height = $('#content').height();
+    $('#table-body').height(form_height - toolbar_height - 20);
+}
+
 $(document).ready(function() {
+    setScrollableTableHeight();
     checkSelectedCheckboxes();
-    $('#mark_easy').on('click', function() { toggleCheckboxes(this, 'tr.easy'); });
-    $('#mark_medium').on('click', function() { toggleCheckboxes(this, 'tr.medium'); });
-    $('#mark_hard').on('click', function() { toggleCheckboxes(this, 'tr.hard'); });
-    $('#mark_all').on('click', function() { toggleCheckboxes(this, 'tr'); });
-    $('#delete, #download_txt, #download_email').on('click', function() { submitForm(this); });
+    $('#mark_easy, #mark_medium, #mark_hard, #mark_all').on('click', 
+        function() { toggleCheckboxes(this); });
+    $('#delete, #download_txt, #download_email').on('click', 
+        function() { submitForm(this); });
     $(':checkbox').on('click', checkSelectedCheckboxes);
-    $('#auto-next').on('click', function() { $(this).toggleClass('active'); });
-    $('.editable_definition').on('hidden', function(e, reason){ openNextEditable(this, reason); });
+    $('#auto-next').on('click', 
+        function() { $(this).toggleClass('active'); });
+    $('.editable_definition').on('hidden', 
+        function(e, reason){ openNextEditable(this, reason); });
+    $('.editable_definition').on('click', 
+        function() {  
+            $.ajax({
+                url: $('#current_page').val(),
+                type: 'POST',
+                data: {
+                    'word': $(this).parent().prev().text(),
+                    'get_dict_data': 'true',
+                    'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+                },
+                headers: { 'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest' },
+                success: getDictionaryData,
+                error: error_f
+            });
+        });
 });

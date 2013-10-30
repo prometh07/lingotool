@@ -1,75 +1,89 @@
 {% extends 'base.html' %}
+
+{% block css %}
+    {{ block.super }}
+    <link href="{{ STATIC_URL }}css/word_sets_detail.css" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
+<div id="current_page" style="display: none">{{ request.META.HTTP_HOST }}{{ request.get_full_path }}</div>
+
 <form id="word_sets_detail_form" action="" method="post">{% csrf_token %}
-    <legend>
-        <a href="#" id="title" class="editable_title" data-type="text" data-pk="{{ word_set_pk }}" data-url="{% url word_sets_detail pk=word_set_pk %}" data-title="Zmień nazwę">{{ word_set_title }}</a>
-    </legend>
-    <input id="submit_action" name="submit_action" type="hidden">
-    <div class="btn-group">
-        <button id="mark" class="btn btn-small dropdown-toggle" data-toggle="dropdown" title="Zaznacz"> 
-        <i class="icon-large icon-ok"></i> <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-            <li id="mark_all" class="mark"><a href="#">wszystkie</a></li>
-            <li id="mark_easy" class="mark"><a href="#">łatwe</a></li>
-            <li id="mark_medium" class="mark"><a href="#">średnie</a></li>
-            <li id="mark_hard" class="mark"><a href="#">trudne</a></li>
-        </ul>
-    </div>
-    <div class="btn-group">
-        <button id="auto-next" class="btn btn-small active" title="Automatycznie przechodź do następnego słowa." type="button">
-            <i class="icon-large icon-repeat"></i>
-        </button>
-        <a class="btn btn-small" title="Dodaj nowy zestaw" href="{% url word_sets_edit word_set_pk %}">
-            <i class="icon-large icon-plus"></i>
-        </a>
-        <button id="modify" class="btn btn-small dropdown-toggle" data-toggle="dropdown" title="Modyfikuj"> 
-            <i class="icon-large icon-wrench"></i> <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-            <li id="download_?"><a href="#">txt</a></li>
-            <li id="download_?"><a href="#">e-mail</a></li>
-        </ul>
-        <button id="delete" class="btn btn-small" title="Usuń">
-            <i class="icon-large icon-trash"></i>
-        </button>
-    </div>
-    <div class="btn-group">
-        <button class="btn btn-small dropdown-toggle" data-toggle="dropdown" title="Eksportuj"> 
-        <i class="icon-large icon-download-alt"></i> <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-            <li id="download_txt"><a href="#">txt</a></li>
-            <li id="download_email"><a href="#">e-mail</a></li>
-        </ul>
+    <div id="toolbar">
+        <legend>
+            <a href="#" id="title" class="editable" data-type="text" data-pk="{{ word_set_pk }}" data-url="{% url word_sets_detail pk=word_set_pk %}" data-title="Zmień nazwę">{{ word_set_title }}</a>
+        </legend>
+        <input id="submit_action" name="submit_action" type="hidden">
+        <div class="btn-group">
+            <button id="mark" class="btn btn-small dropdown-toggle" data-toggle="dropdown" title="Zaznacz"> 
+            <i class="icon-large icon-ok"></i> <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li id="mark_all" class="mark" data-target="tr"><a href="#">wszystkie</a></li>
+                <li id="mark_easy" class="mark" data-target="tr.easy"><a href="#">łatwe</a></li>
+                <li id="mark_medium" class="mark" data-target="tr.medium"><a href="#">średnie</a></li>
+                <li id="mark_hard" class="mark" data-target="tr.hard"><a href="#">trudne</a></li>
+            </ul>
+        </div>
+        <div class="btn-group">
+            <button id="auto-next" class="btn btn-small active" title="Automatycznie przechodź do następnego słowa." type="button">
+                <i class="icon-large icon-repeat"></i>
+            </button>
+            <a class="btn btn-small" title="Dodaj nowy zestaw" href="{% url word_sets_edit word_set_pk %}">
+                <i class="icon-large icon-plus"></i>
+            </a>
+            <button id="modify" class="btn btn-small dropdown-toggle" data-toggle="dropdown" title="Modyfikuj"> 
+                <i class="icon-large icon-wrench"></i> <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li id="download_?"><a href="#">txt</a></li>
+                <li id="download_?"><a href="#">e-mail</a></li>
+            </ul>
+            <button id="delete" class="btn btn-small" title="Usuń">
+                <i class="icon-large icon-trash"></i>
+            </button>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-small dropdown-toggle" data-toggle="dropdown" title="Eksportuj"> 
+            <i class="icon-large icon-download-alt"></i> <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li id="download_txt"><a href="#">txt</a></li>
+                <li id="download_email"><a href="#">e-mail</a></li>
+            </ul>
+        </div>
+        <table class="table table-hover" id="table-header">
+            <thead>
+                <th width="40%">Słowo/fraza</th>
+                <th>Tłumaczenie</th>
+            </thead>
+        </table>
     </div>
 
-    <table class="table table-hover">
-        <thead>
-            <th>Słowo/fraza</th>
-            <th>Tłumaczenie</th>
-        </thead>
-        <tbody>
-            {% for word in words %}
-            {% if word.difficulty == 0 %}
-            <tr class="easy">
-            {% elif word.difficulty == 1 %}
-            <tr class="medium">
-            {% else %}
-            <tr class="hard">
-            {% endif %}
-                <td width="40%">
-                    <label class="checkbox">
-                        <input class="in" type="checkbox" name="word" value="{{ word.id }}">
-                        <a href="#" id="word" class="editable_word" data-type="text" data-pk="{{ word.id }}" data-url="{% url word_sets_detail pk=word_set_pk %}" data-title="Zmień słowo">{{ word.word }}</a>
-                        </input>
-                    </label>
-                </td>
-                <td width="60%"><a href="#" id="definition" class="editable_definition" data-type="text" data-pk="{{ word.id }}" data-url="{% url word_sets_detail pk=word_set_pk %}" data-title="Zmień tłumaczenie">{{ word.definition }}</a></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div id="table-body">
+        <table class="table table-hover">
+            <tbody>
+                {% for word in words %}
+                {% if word.difficulty == 0 %}
+                <tr class="easy">
+                {% elif word.difficulty == 1 %}
+                <tr class="medium">
+                {% else %}
+                <tr class="hard">
+                {% endif %}
+                    <td width="40%">
+                        <label class="checkbox">
+                            <input class="in" type="checkbox" name="word" value="{{ word.id }}">
+                            <a href="#" id="word" class="editable" data-type="text" data-pk="{{ word.id }}" data-url="{% url word_sets_detail pk=word_set_pk %}" data-title="Zmień słowo">{{ word.word }}</a>
+                            </input>
+                        </label>
+                    </td>
+                    <td width="60%"><a href="#" id="definition" class="editable_definition" data-type="text" data-pk="{{ word.id }}" data-url="{% url word_sets_detail pk=word_set_pk %}" data-title="Zmień tłumaczenie">{{ word.definition }}</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </form>
 <script src="{{ STATIC_URL }}js/word_sets_detail.js"></script>
 {% endblock %}

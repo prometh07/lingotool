@@ -1,0 +1,8 @@
+#table-body {
+    overflow-y: auto;
+}
+
+#table-header {
+    margin-bottom: 0px;
+    margin-top: 10px;
+}

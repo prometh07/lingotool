@@ -624,6 +624,7 @@ a:focus {
     padding: 10px 10px 10px 10px;
     background: #eeeeee;
     border: 1px solid #C3CDD4; 
+    max-height: 100%;
 }
 
 .container:before,

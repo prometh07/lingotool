@@ -3,7 +3,7 @@ from django.db import models
 
 
 class Word(models.Model):
-    word = models.CharField(max_length=128)
+    word = models.CharField(max_length=512)
     definition = models.CharField(max_length=512)
     difficulty = models.IntegerField()
     word_set = models.ForeignKey('WordSet')
@@ -23,3 +23,11 @@ class WordSet(models.Model):
     @property
     def words_number(self):
         return self.word_set.count()
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+    class Meta:
+        permissions = (
+            ('is_tester', 'true'),
+        )
