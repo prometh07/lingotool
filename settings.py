@@ -79,6 +79,7 @@ CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
         'TIMEOUT': 0,
+        'LOCATION': '127.0.0.1:11211',
     }
 }
 
@@ -100,8 +101,6 @@ else:
 
 LANGUAGE_CODE = 'pl'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-
-
 
 # Files upload
 FILE_UPLOAD_HANDLERS = (

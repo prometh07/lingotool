@@ -102,7 +102,7 @@ def word_sets_detail(request, pk):
 @login_required
 def word_sets_edit(request, pk=None):
     """
-    Modify exisitng WordSet or create a new one.
+    Modify exisiting WordSet or create a new one.
     """
     word_set = get_object_or_404(WordSet, pk=pk, user=request.user) if pk else None
     edit_mode = True if word_set else False

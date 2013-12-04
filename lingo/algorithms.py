@@ -15,6 +15,11 @@ medium_val = 6.0
 
 
 def parse_text(text):
+    """
+    Parse the given text using nltk library.
+
+    The method 
+    """
     sentences = sent_tokenize(text)
     sentences = [word_tokenize(sent) for sent in sentences]
     words = [word.strip() for sent in sentences for word in sent]

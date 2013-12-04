@@ -6,8 +6,8 @@ class Word(models.Model):
     """
     A word.
     """
-    word = models.CharField(max_length=512)
-    definition = models.CharField(max_length=512)
+    word = models.CharField(max_length=400)
+    definition = models.CharField(max_length=400)
     difficulty = models.IntegerField()
     pos = models.CharField(max_length=64)
     word_set = models.ForeignKey('WordSet')
@@ -20,7 +20,7 @@ class WordSet(models.Model):
     """
     A set of words.
     """
-    title = models.CharField(max_length=1024)
+    title = models.CharField(max_length=400)
     pub_date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User)
 

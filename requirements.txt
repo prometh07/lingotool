@@ -6,8 +6,11 @@ PyAMF==0.6.1
 WebOb==1.2.3
 antlr-python-runtime==3.1.1
 argparse==1.2.1
+coverage==3.7
+mock==1.0.1
+model-mommy==1.2
 pep8==1.4.5
 preppy==1.0.1
-python-memcached==1.53
+six==1.3.0
 webapp2==2.5.2
 wsgiref==0.1.2
