@@ -60,7 +60,7 @@ def word_sets_detail(request, pk):
     if request.method == 'POST':
         if request.is_ajax():
             if request.POST.get('get_dict_data'):
-                word = request.POST.get('word')
+                word_id = request.POST.get('word_id')
                 dict_data = get_dictionary_data(word)
                 return HttpResponse(dict_data)
             attribute = request.POST.get('name') 

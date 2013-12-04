@@ -74,16 +74,41 @@
                     <td width="40%">
                         <label class="checkbox">
                             <input class="in" type="checkbox" name="word" value="{{ word.id }}">
-                            <a href="#" id="word" class="editable" data-type="text" data-pk="{{ word.id }}" data-url="{% url word_sets_detail pk=word_set_pk %}" data-title="Zmień słowo">{{ word.word }}</a>
+                            <a id="word" class="editable" data-type="text" data-pk="{{ word.id }}" data-url="{% url word_sets_detail pk=word_set_pk %}" data-title="Zmień słowo">{{ word.word }}</a>
                             </input>
                         </label>
                     </td>
-                    <td width="60%"><a href="#" id="definition" class="editable_definition" data-type="text" data-pk="{{ word.id }}" data-url="{% url word_sets_detail pk=word_set_pk %}" data-title="Zmień tłumaczenie">{{ word.definition }}</a></td>
+                    {% if word.definition %}
+                    <td width="60%"><a href="#" class="definition">{{ word.definition }}</a></td>
+                    {% else %}
+                    <td width="60%"><a href="#" class="definition" data-pk="{{ word.id }}">brak</a></td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </form>
+
+<div id="definition_modal" class="modal hide fade" tabindex="-1">
+    <div class="modal-header">
+        <h4>Zmień tłumaczenie</h4>
+    </div>
+    <div class="modal-body"></div>
+    <div class="modal-footer">
+        <div class="row-fluid">
+        <form class="form-inline">
+            <input type="text" class="input-xlarge"></input>
+            <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">
+                <i class="icon-large icon-ok"></i>
+            </button>
+            <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">
+                <i class="icon-large icon-remove"></i>
+            </button>
+        </form>
+        </div>
+    </div>
+</div>
+
 <script src="{{ STATIC_URL }}js/word_sets_detail.js"></script>
 {% endblock %}

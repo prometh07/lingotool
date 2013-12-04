@@ -3,9 +3,13 @@ from django.db import models
 
 
 class Word(models.Model):
+    """
+    A word.
+    """
     word = models.CharField(max_length=512)
     definition = models.CharField(max_length=512)
     difficulty = models.IntegerField()
+    pos = models.CharField(max_length=64)
     word_set = models.ForeignKey('WordSet')
 
     def __unicode__(self):
@@ -13,6 +17,9 @@ class Word(models.Model):
 
 
 class WordSet(models.Model):
+    """
+    A set of words.
+    """
     title = models.CharField(max_length=1024)
     pub_date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User)
@@ -22,12 +29,7 @@ class WordSet(models.Model):
 
     @property
     def words_number(self):
+        """
+        Return a number of words in the set of words.
+        """
         return self.word_set.count()
-
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(User)
-    class Meta:
-        permissions = (
-            ('is_tester', 'true'),
-        )

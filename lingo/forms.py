@@ -31,8 +31,9 @@ class WordSetForm(forms.Form):
         file = self.cleaned_data.get('file')
         text = self.cleaned_data.get('text')
         data = file.read() if file else text
-        data = parse_text(data)
-        words = naive(data)
+        words = parse_text(data)
+        #words = naive(words)
         self.instance.save()
-        for (word, word_val) in words:
-            Word.objects.create(word=word, definition='', difficulty=word_val, word_set=self.instance)
+        word_difficulty = 0
+        for (word, pos) in words:
+            Word.objects.create(word=word, pos=pos, definition='', difficulty=word_difficulty, word_set=self.instance)

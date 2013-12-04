@@ -6,3 +6,8 @@
     margin-bottom: 0px;
     margin-top: 10px;
 }
+
+.modal {
+    width: 500px;
+    margin-left: -250px; // half of the width
+}

@@ -11,6 +11,9 @@ from conf import API_KEY
 
 
 def generate_txt_file(word_sets):
+    """
+    Generate a .txt file from the list of WordSet pk's.
+    """
     file_content = list()
     for word_set in word_sets:
         file_content.append(u'''Zestaw słówek - {}\n\n'''.format(word_set.title))
@@ -22,19 +25,26 @@ def generate_txt_file(word_sets):
 
 
 def get_dictionary_data(word):
+    """Get a dictionary entry for given word.
+
+    Args:
+        word: the word to be searched.
+    Returns:
+        the dictionary entry in HTML format.
+
+    """
     dict_code = 'british'
-    url = "".join(["https://dictionary.cambridge.org/api/v1/dictionaries/", dict_code, "/search"])
     headers = {
-        'Accept': 'application/json'
+        'accessKey': API_KEY
     }
     params_dict = {
-        'accessKey': API_KEY,
-        'pageindex': '1',
-        'pagesize': '10',
-        'q': word
+        'Accept': 'application/json',
+        'format': 'html'
     }
     params = urllib.urlencode(params_dict)
-    request = urllib2.Request(url, params, headers=headers)
+    url = "".join(["https://dictionary.cambridge.org/api/v1/dictionaries/", dict_code, "/entries/", word.strip(), "/?", params])
+    request = urllib2.Request(url, headers=headers)
     response = urllib2.urlopen(request)
     data = response.read()
-    return data
+    data = json.loads(data)
+    return data['entryContent']

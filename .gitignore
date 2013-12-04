@@ -16,3 +16,4 @@ build
 conf.py
 temp_data/
 lib/
+nltk_data/

@@ -1,26 +1,6 @@
 $.fn.editable.defaults.mode = 'inline';
 
-$.fn.editableform.template = '' +
-'<form class="form-inline editableform">' +
-    '<div class="control-group">' +
-        '<div id="ajax"></div>' +
-        '<div><div class="editable-input"></div><div class="editable-buttons"></div></div>' +
-        '<div class="editable-error-block"></div>' +
-    '</div>' +
-'</form>';
-
 $('.editable').editable({
-    params: {
-        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
-    },
-    ajaxOptions: {
-        headers: { 'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest' }
-    },
-});
-
-$('.editable_definition').editable({
-    emptytext: 'brak',
-    mode: 'popup',
     params: {
         'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
     },
@@ -34,6 +14,22 @@ openNextEditable = function(obj, reason) {
         var next = $(obj).closest('tr').next().find('.editable');
         setTimeout(function() { next.editable('show'); }, 300); 
     }
+}
+
+openDefinitionModal = function(obj) {
+    $.ajax({
+        url: $('#current_page').val(),
+        type: 'POST',
+        data: {
+            'word_id': $(obj).parent().prev().text(),
+            'get_dict_data': 'true',
+            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+        },
+        headers: { 'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest' },
+        success: getDictionaryData,
+        error: error_f
+    });
+    $('#definition_modal').modal();
 }
 
 checkSelectedCheckboxes = function() {
@@ -61,8 +57,8 @@ submitForm = function(obj) {
     $('#word_sets_detail_form').submit();
 }
 
-getDictionaryData = function() { 
-    
+getDictionaryData = function(data) { 
+    $('#definition_modal .modal-body').html(data);
 };
 
 error_f = function() { }
@@ -85,19 +81,6 @@ $(document).ready(function() {
         function() { $(this).toggleClass('active'); });
     $('.editable_definition').on('hidden', 
         function(e, reason){ openNextEditable(this, reason); });
-    $('.editable_definition').on('click', 
-        function() {  
-            $.ajax({
-                url: $('#current_page').val(),
-                type: 'POST',
-                data: {
-                    'word': $(this).parent().prev().text(),
-                    'get_dict_data': 'true',
-                    'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
-                },
-                headers: { 'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest' },
-                success: getDictionaryData,
-                error: error_f
-            });
-        });
+    $('.definition').on('click', 
+        function(e) { openDefinitionModal(this); });
 });

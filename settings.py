@@ -9,6 +9,9 @@ import sys
 
 PROJECT_PATH = os.path.dirname(__file__)
 
+# Third party libraries
+sys.path.insert(0, os.path.join(PROJECT_PATH, 'lib'))
+
 # Activate django-dbindexer for the default database
 DATABASES['native'] = DATABASES['default']
 DATABASES['default'] = {'ENGINE': 'dbindexer', 'TARGET': 'native'}
@@ -98,8 +101,7 @@ else:
 LANGUAGE_CODE = 'pl'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-# Third party libraries
-sys.path.append(os.path.join(PROJECT_PATH, 'lib'))
+
 
 # Files upload
 FILE_UPLOAD_HANDLERS = (
