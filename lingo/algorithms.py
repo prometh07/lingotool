@@ -18,7 +18,10 @@ def parse_text(text):
     """
     Parse the given text using nltk library.
 
-    The method 
+    Args:
+        text: the text to be parsed.
+    Returns:
+        the list of tuples (word, part_of_speech)
     """
     sentences = sent_tokenize(text)
     sentences = [word_tokenize(sent) for sent in sentences]
@@ -31,6 +34,7 @@ def parse_text(text):
         if wordnet_pos:
             words[i] = (lemmatizer.lemmatize(word, pos=wordnet_pos), wordnet_pos)
     words = [(word, pos) for word, pos in words if len(word) > 2]
+    words = list(set(words))
     return words
 
 

@@ -1,13 +1,15 @@
 from django.contrib.auth.models import User
-from django.db import models
+from django.core.exceptions import ObjectDoesNotExist
+from django.db import models, DatabaseError
+
 
 
 class Word(models.Model):
     """
     A word.
     """
-    word = models.CharField(max_length=400)
-    definition = models.CharField(max_length=400)
+    word = models.CharField(max_length=200)
+    definition = models.CharField(max_length=500)
     difficulty = models.IntegerField()
     pos = models.CharField(max_length=64)
     word_set = models.ForeignKey('WordSet')
@@ -20,7 +22,7 @@ class WordSet(models.Model):
     """
     A set of words.
     """
-    title = models.CharField(max_length=400)
+    title = models.CharField(max_length=500)
     pub_date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User)
 
@@ -38,11 +40,24 @@ class WordSet(models.Model):
         """Merge other WordSets with self.
 
         Only one copy of the same words having identical definitions is saved.
+        Multiple definitions of the same words (i.e. having the same word and
+        part of speech - pos - attributes) are merged.
         """
         for word_set in word_sets:
             for word in word_set.word_set.all():
-                if not self.word_set.filter(word=word.word, definition=word.definition).exists():
+                try:
+                    similar_word = self.word_set.get(pos=word.pos, word=word.word)
+                except ObjectDoesNotExist:
                     word.word_set = self
                     word.save()
+                else:
+                    try:
+                        similar_word.definition += "; " + word.definition
+                        similar_word.save()
+                    except DatabaseError as e:
+                        word.word_set = self
+                        word.save()
+                    else:
+                        word.delete()
             word_set.delete()
         self.save()
