@@ -33,3 +33,16 @@ class WordSet(models.Model):
         Return a number of words in the set of words.
         """
         return self.word_set.count()
+
+    def merge(self, word_sets):
+        """Merge other WordSets with self.
+
+        Only one copy of the same words having identical definitions is saved.
+        """
+        for word_set in word_sets:
+            for word in word_set.word_set.all():
+                if not self.word_set.filter(word=word.word, definition=word.definition).exists():
+                    word.word_set = self
+                    word.save()
+            word_set.delete()
+        self.save()
