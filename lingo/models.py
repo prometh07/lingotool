@@ -3,7 +3,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, DatabaseError
 
 
-
 class Word(models.Model):
     """
     A word.

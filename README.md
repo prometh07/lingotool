@@ -11,3 +11,9 @@ biologii molekularnej - listę słówek i fraz, których najprawdopodobniej
 jeszcze nie znasz. Kiedy je już opanujesz, przeczytanie tekstu ze zrozumieniem
 powinno okazać się znacznie łatwiejsze i przyjemniejsze - nie będziesz już
 sięgać co chwila do słownika.
+
+Todo:
+---------
+    * replace hardcoded forms with django forms
+    * create more tests covering forms and views
+    * update ui for dict-api modal
