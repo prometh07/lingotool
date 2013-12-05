@@ -32,18 +32,18 @@ def word_sets_list(request):
         elif request.POST.get('submit_action') == 'merge':
             target = word_sets[0]
             target.merge(word_sets[1:])
-        else:
+        elif request.POST.get('submit_action') == 'download_txt':
             file_content = generate_txt_file(word_sets)
-            if request.POST.get('submit_action') == 'download_txt':
-                response = HttpResponse(file_content, content_type='text/plain; charset=utf-8')
-                response['Content-Disposition'] = 'attachment; filename="words.txt"'
-                return response
-            elif request.POST.get('submit_action') == 'download_email':
-                email = EmailMessage('Zestawy słówek', 'Plik znajduje się w załączniku',
-                                     EMAIL_HOST_USER, [request.user.email],
-                                     attachments=[('words.txt', file_content,
-                                                   'text/plain; charset=utf-8')])
-                email.send()
+            response = HttpResponse(file_content, content_type='text/plain; charset=utf-8')
+            response['Content-Disposition'] = 'attachment; filename="words.txt"'
+            return response
+        elif request.POST.get('submit_action') == 'download_email':
+            file_content = generate_txt_file(word_sets)
+            email = EmailMessage('Zestawy słówek', 'Plik znajduje się w załączniku',
+                                 EMAIL_HOST_USER, [request.user.email],
+                                 attachments=[('words.txt', file_content,
+                                               'text/plain; charset=utf-8')])
+            email.send()
         return redirect(word_sets_list)
 
     word_sets = request.user.wordset_set.all().order_by('-pub_date')

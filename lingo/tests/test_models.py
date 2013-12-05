@@ -1,7 +1,8 @@
 from django.test import TestCase
-from lingo.models import Word, WordSet
 
 from model_mommy import mommy
+
+from ..models import Word, WordSet
 
 
 class WordTest(TestCase):
@@ -11,7 +12,6 @@ class WordTest(TestCase):
 
 
 class WordSetTest(TestCase):
-    @classmethod
     def setUp(self):
         self.word_set = mommy.make(WordSet)
 

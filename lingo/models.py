@@ -54,7 +54,7 @@ class WordSet(models.Model):
                     try:
                         similar_word.definition += "; " + word.definition
                         similar_word.save()
-                    except DatabaseError as e:
+                    except DatabaseError:
                         word.word_set = self
                         word.save()
                     else:
