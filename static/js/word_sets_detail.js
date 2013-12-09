@@ -21,7 +21,7 @@ openDefinitionModal = function(obj) {
         url: $('#current_page').val(),
         type: 'POST',
         data: {
-            'word_id': $(obj).parent().prev().text(),
+            'word': $(obj).parent().prev().text(),
             'get_dict_data': 'true',
             'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
         },

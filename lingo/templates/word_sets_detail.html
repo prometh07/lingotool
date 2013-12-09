@@ -29,7 +29,7 @@
             <button id="auto-next" class="btn btn-small active" title="Automatycznie przechodź do następnego słowa." type="button">
                 <i class="icon-large icon-repeat"></i>
             </button>
-            <a class="btn btn-small" title="Dodaj nowy zestaw" href="{% url word_sets_edit word_set_pk %}">
+            <a class="btn btn-small" title="Dodaj więcej słówek" href="{% url word_sets_edit word_set_pk %}">
                 <i class="icon-large icon-plus"></i>
             </a>
             <button id="modify" class="btn btn-small dropdown-toggle" data-toggle="dropdown" title="Modyfikuj"> 
@@ -60,10 +60,10 @@
         </table>
     </div>
 
-    <div id="table-body">
+   <div id="table-body">
         <table class="table table-hover">
             <tbody>
-                {% for word in words %}
+                {% for word in form.fields.word.queryset %}
                 {% if word.difficulty == 0 %}
                 <tr class="easy">
                 {% elif word.difficulty == 1 %}

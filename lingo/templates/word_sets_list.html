@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-{% if word_sets %}
+{% if form.fields.word_set.queryset %}
 
 <form id="word_sets_list_form" action="" method="post">{% csrf_token %} 
     <div id="toolbar">
@@ -38,6 +38,10 @@
                 <i class="icon-large icon-download-alt"></i>
                 <span class="caret"></span>
             </button>
+            <ul class="dropdown-menu">
+                <li id="download_txt"><a href="#">txt</a></li>
+                <li id="download_email"><a href="#">e-mail</a></li>
+            </ul>
         </div>
 
         <!-- List of sets -->
@@ -53,19 +57,19 @@
     <div id="table-body">
         <table class="table table-hover">
             <tbody>
-                {% for word_set in word_sets %}
-                <tr id="{{ word_set.id }}">
-                    <td width="70%">
-                        <label class="checkbox">
-                        <input class="in" type="checkbox" name="word_set" value="{{ word_set.id }}">
-                            <a href="{% url word_sets_detail word_set.id %}">{{ word_set.title }}</a>
-                        </input>
-                        </label>
-                    </td>
-                    <td width="10%">{{ word_set.words_number }}</td>
-                    <td width="20%">{{ word_set.pub_date|date:"Y-m-d, H:i" }}</td>
-                </tr>
-                {% endfor %}
+            {% for word_set in form.fields.word_set.queryset %}
+            <tr id="{{ word_set.id }}">
+                <td width="70%">
+                    <label class="checkbox">
+                    <input class="in" type="checkbox" name="word_set" value="{{ word_set.id }}">
+                        <a href="{% url word_sets_detail word_set.id %}">{{ word_set.title }}</a>
+                    </input>
+                    </label>
+                </td>
+                <td width="10%">{{ word_set.words_number }}</td>
+                <td width="20%">{{ word_set.pub_date|date:"Y-m-d, H:i" }}</td>
+            </tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>

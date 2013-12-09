@@ -12,7 +12,7 @@ class WordSetForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         self.instance = kwargs.pop('instance', None)
-        self.user = kwargs.pop('user', None)
+        self.user = kwargs.pop('user')
         super(WordSetForm, self).__init__(*args, **kwargs)
 
     def clean(self):
@@ -36,4 +36,39 @@ class WordSetForm(forms.Form):
         self.instance.save()
         word_difficulty = 0
         for (word, pos) in words:
-            Word.objects.create(word=word, pos=pos, definition='', difficulty=word_difficulty, word_set=self.instance)
+            Word.objects.create(word=word, pos=pos, definition='', 
+                                difficulty=word_difficulty, word_set=self.instance)
+
+
+class WordSetsListForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super(WordSetsListForm, self).__init__(*args, **kwargs)
+        self.fields['word_set'] = forms.ModelMultipleChoiceField(
+            queryset = self.user.wordset_set.all(),
+            widget = forms.widgets.CheckboxSelectMultiple)
+        self.submit_action = self.data.get('submit_action', None)
+
+    def save(self):
+        word_sets = self.cleaned_data.get('word_set')
+        if self.submit_action == 'delete':
+            word_sets.delete()
+        elif self.submit_action == 'merge':
+            target = word_sets[0]
+            target.merge(word_sets[1:])
+
+
+class WordSetsDetailForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        self.instance = kwargs.pop('instance', None)
+        self.user = kwargs.pop('user', None)
+        super(WordSetsDetailForm, self).__init__(*args, **kwargs)
+        self.fields['word'] = forms.ModelMultipleChoiceField(
+            queryset = self.instance.word_set.all(),
+            widget = forms.widgets.CheckboxSelectMultiple)
+        self.submit_action = self.data.get('submit_action', None)
+
+    def save(self):
+        words = self.cleaned_data.get('word')
+        if self.submit_action == 'delete':
+            words.delete()

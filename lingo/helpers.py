@@ -12,7 +12,7 @@ from conf import API_KEY
 
 def generate_txt_file(word_sets):
     """
-    Generate a .txt file from the list of WordSet pk's.
+    Generate a .txt file from the list of WordSet objects.
     """
     file_content = list()
     for word_set in word_sets:
