@@ -40,7 +40,7 @@ class WordSet(models.Model):
 
         Only one copy of the same words having identical definitions is saved.
         Multiple definitions of the same words (i.e. having the same word and
-        part of speech - pos - attributes) are merged. 
+        part of speech - pos - attributes) are merged.
         """
         for word_set in word_sets:
             for word in word_set.word_set.all():

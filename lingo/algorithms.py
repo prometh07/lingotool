@@ -26,7 +26,7 @@ def parse_text(text):
     sentences = sent_tokenize(text)
     sentences = [word_tokenize(sent) for sent in sentences]
     words = [word.strip() for sent in sentences for word in sent]
-    words = [word for word in words if len(word) > 2 and not word.isdigit()] 
+    words = [word for word in words if len(word) > 2 and not word.isdigit()]
     words = pos_tag(words)
     lemmatizer = WordNetLemmatizer()
     for i, (word, pos) in enumerate(words):
@@ -42,7 +42,7 @@ def naive(words):
     words = [[word, pos, 0] for word, pos in words]
     for word in words:
         if freq_words.get(word[0], max_val) <= easy_val:
-            word[2] = 0 
+            word[2] = 0
         elif freq_words.get(word[0], max_val) <= medium_val:
             word[2] = 1
         else:

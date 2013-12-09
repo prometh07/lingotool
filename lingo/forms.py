@@ -6,6 +6,9 @@ from .algorithms import naive, parse_text
 
 
 class WordSetForm(forms.Form):
+    """
+    Form used to create a new WordSet or modify an exisiting one.
+    """
     title = forms.CharField(max_length=1024, required=False)
     file = forms.FileField(required=False)
     text = forms.CharField(widget=forms.Textarea, required=False)
@@ -25,9 +28,7 @@ class WordSetForm(forms.Form):
 
     def save(self):
         if not self.instance:
-            self.instance = WordSet(
-                title = self.cleaned_data.get('title'),
-                user = self.user)
+            self.instance = WordSet(title=self.cleaned_data.get('title'), user=self.user)
         file = self.cleaned_data.get('file')
         text = self.cleaned_data.get('text')
         data = file.read() if file else text
@@ -36,17 +37,20 @@ class WordSetForm(forms.Form):
         self.instance.save()
         word_difficulty = 0
         for (word, pos) in words:
-            Word.objects.create(word=word, pos=pos, definition='', 
+            Word.objects.create(word=word, pos=pos, definition='',
                                 difficulty=word_difficulty, word_set=self.instance)
 
 
 class WordSetsListForm(forms.Form):
+    """
+    Form used to modify a list of WordSets.
+    """
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
         super(WordSetsListForm, self).__init__(*args, **kwargs)
         self.fields['word_set'] = forms.ModelMultipleChoiceField(
-            queryset = self.user.wordset_set.all(),
-            widget = forms.widgets.CheckboxSelectMultiple)
+            queryset=self.user.wordset_set.all(),
+            widget=forms.widgets.CheckboxSelectMultiple)
         self.submit_action = self.data.get('submit_action', None)
 
     def save(self):
@@ -59,13 +63,16 @@ class WordSetsListForm(forms.Form):
 
 
 class WordSetsDetailForm(forms.Form):
+    """
+    Form used to manage specific WordSet.
+    """
     def __init__(self, *args, **kwargs):
         self.instance = kwargs.pop('instance', None)
         self.user = kwargs.pop('user', None)
         super(WordSetsDetailForm, self).__init__(*args, **kwargs)
         self.fields['word'] = forms.ModelMultipleChoiceField(
-            queryset = self.instance.word_set.all(),
-            widget = forms.widgets.CheckboxSelectMultiple)
+            queryset=self.instance.word_set.all(),
+            widget=forms.widgets.CheckboxSelectMultiple)
         self.submit_action = self.data.get('submit_action', None)
 
     def save(self):

@@ -69,7 +69,7 @@ class WordSetsListFormTest(TestCase):
         self.assertTrue(form.is_valid())
         #self.assertEqual(form.cleaned_data.get('word_set'), [self.word_sets[0], self.word_sets[1]])
         form.save()
-        self.assertEqual(self.user.wordset_set.count(), 1) 
+        self.assertEqual(self.user.wordset_set.count(), 1)
 
     def test_invalid_data_delete(self):
         another_user = mommy.make(User)
@@ -84,7 +84,7 @@ class WordSetsListFormTest(TestCase):
                                  'submit_action': 'merge'}, user=self.user)
         self.assertTrue(form.is_valid())
         form.save()
-        self.assertEqual(self.user.wordset_set.count(), 2) 
+        self.assertEqual(self.user.wordset_set.count(), 2)
 
     def test_invalid_data_merge(self):
         another_user = mommy.make(User)
@@ -103,17 +103,17 @@ class WordSetsDetailFormTest(TestCase):
 
     def test_valid_data_delete(self):
         form = WordSetsDetailForm({'word': [self.words[0].pk, self.words[1].pk],
-                                   'submit_action': 'delete'}, instance=self.word_set, 
-                                   user=self.user)
+                                  'submit_action': 'delete'}, instance=self.word_set,
+                                  user=self.user)
         self.assertTrue(form.is_valid())
         form.save()
-        self.assertEqual(self.word_set.word_set.count(), 8) 
+        self.assertEqual(self.word_set.word_set.count(), 8)
 
     def test_invalid_data_delete(self):
         another_user = mommy.make(User)
         another_word_set = mommy.make(WordSet, user=another_user)
 
         form = WordSetsDetailForm({'word': [self.words[0].pk, another_word_set.pk],
-                                   'submit_action': 'delete'}, instance=self.word_set, 
-                                   user=self.user)
+                                  'submit_action': 'delete'}, instance=self.word_set,
+                                  user=self.user)
         self.assertFalse(form.is_valid())

@@ -66,18 +66,18 @@ def word_sets_detail(request, pk):
     if form.is_valid():
         if form.submit_action == 'delete':
             form.save()
-        elif form.submit_action == 'download_txt':
-            file_content = generate_txt_file([word_set])
-            response = HttpResponse(file_content, content_type='text/plain; charset=utf-8')
-            response['Content-Disposition'] = 'attachment; filename="words.txt"'
-            return response
-        elif form.submit_action == 'download_email':
-            file_content = generate_txt_file([word_set])
-            email = EmailMessage('Zestawy słówek', 'Plik znajduje się w załączniku',
-                                 EMAIL_HOST_USER, [request.user.email],
-                                 attachments=[('words.txt', file_content,
-                                               'text/plain; charset=utf-8')])
-            email.send()
+    if form.submit_action == 'download_txt':
+        file_content = generate_txt_file([word_set])
+        response = HttpResponse(file_content, content_type='text/plain; charset=utf-8')
+        response['Content-Disposition'] = 'attachment; filename="words.txt"'
+        return response
+    elif form.submit_action == 'download_email':
+        file_content = generate_txt_file([word_set])
+        email = EmailMessage('Zestawy słówek', 'Plik znajduje się w załączniku',
+                             EMAIL_HOST_USER, [request.user.email],
+                             attachments=[('words.txt', file_content,
+                                           'text/plain; charset=utf-8')])
+        email.send()
 
     if request.method == 'POST':
         return redirect(word_sets_detail, pk=pk)
