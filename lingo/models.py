@@ -21,6 +21,9 @@ class WordSet(models.Model):
     """
     A set of words.
     """
+    class Meta:
+        ordering = ['-pub_date']
+
     title = models.CharField(max_length=500)
     pub_date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User)
@@ -54,8 +57,8 @@ class WordSet(models.Model):
                         similar_word.definition += "; " + word.definition
                         similar_word.save()
                     except DatabaseError:
-                        #word.word_set = self
-                        #word.save()
+                        # definitions are too long to fit in one CharField;
+                        # the word is deleted and definition lost (not probable)
                         pass
                     word.delete()
             word_set.delete()

@@ -26,19 +26,15 @@ class WordSetFormTest(TestCase):
         self.assertEqual(self.user.wordset_set.count(), 1)
 
 #    def test_valid_data_file(self):
-#        text = 'This is just a test sentence.'
-#        filename = tempfile.mkstemp()[1]
-#        f = open(filename, 'w')
-#        f.write(text)
+#        f = open('tmp.txt', 'w')
+#        f.write(self.text)
 #        f.close()
-#        f = open(filename, 'r')
-#        title = 'Test set'
-#        user = mommy.make(User)
+#        f = open('tmp.txt', 'r')
 #
-#        form = WordSetForm({'title': title}, {'file': f}, user=user)
+#        form = WordSetForm({'title': self.title}, {'file': f.read()}, user=self.user)
 #        self.assertTrue(form.is_valid())
-#        self.assertEqual(form.cleaned_data.get('title'), title)
-#        self.assertEqual(form.cleaned_data.get('file'), text)
+#        self.assertEqual(form.cleaned_data.get('title'), self.title)
+#        self.assertEqual(form.cleaned_data.get('file'), self.text)
 #
 #        form.save()
 #        self.assertIsInstance(form.instance, WordSet)
