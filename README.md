@@ -14,6 +14,6 @@ sięgać co chwila do słownika.
 
 Todo:
 ---------
-    * replace hardcoded forms with django forms
-    * create more tests covering forms and views
+    * more tests
     * update ui for dict-api modal
+    * change dictionary-api (Wordnik?)
